@@ -3,7 +3,6 @@
 - hosts: localhost
 
   tasks:
-    - name: Check variables passed from AAP
     - name: Verify AWS credentials by calling STS GetCallerIdentity
       amazon.aws.aws_caller_info:
       register: aws_caller
