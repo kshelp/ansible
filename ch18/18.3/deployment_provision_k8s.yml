@@ -28,7 +28,7 @@
                     image: "{{ container_image }}"
                     ports:
                       #- containerPort: "{{ container_port | int }}"
-                      - containerPort: 
+                      - containerPort: 80
       register: my_deployment
 
     - name: Print deployment information
