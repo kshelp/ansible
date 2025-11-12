@@ -1,32 +1,15 @@
----
-- name: Provision EC2 instance on AWS
-  hosts: localhost
-  gather_facts: false
-  vars:
-    image_id: "ami-010be25c3775061c9"
-    instance_type: "t2.micro"
-    key_name: "test-key"
-    region_name: "ap-northeast-2"
-    security_group: "default"
-    vm_name: "testvm"
-    subnet_id: ""  # 필요하면 서브넷 ID 입력
-  tasks:
-    - name: Launch EC2 instance
-      amazon.aws.ec2_instance:
-        name: "{{ vm_name }}"
-        key_name: "{{ key_name }}"
-        instance_type: "{{ instance_type }}"
-        image_id: "{{ image_id }}"
-        region: "{{ region_name }}"
-        security_groups: 
-          - "{{ security_group }}"
-        wait: yes
-        count: 1
-        instance_tags:
-          Name: "{{ vm_name }}"
-        subnet_id: "{{ subnet_id | default(omit) }}"
-      register: ec2_result
-
-    - name: Show launched EC2 instance details
-      debug:
-        var: ec2_result
+- name: Launch EC2 instance
+  amazon.aws.ec2_instance:
+    name: "{{ vm_name }}"
+    key_name: "{{ key_name }}"
+    instance_type: "{{ instance_type }}"
+    image_id: "{{ image_id }}"
+    region: "{{ region_name }}"
+    security_groups: 
+      - "{{ security_group }}"
+    wait: yes
+    count: 1
+    tags:                   # ← 여기 변경
+      Name: "{{ vm_name }}"
+    subnet_id: "{{ subnet_id | default(omit) }}"
+  register: ec2_result
