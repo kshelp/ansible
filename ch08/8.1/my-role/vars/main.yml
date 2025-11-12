@@ -1,0 +1,18 @@
+---
+# vars file for my-role
+
+# 기본 서비스 이름 (디폴트는 httpd)
+service_name: "{{ 'apache2' if ansible_facts['os_family'] == 'Debian' else 'httpd' }}"
+
+# 배포판별 경로 설정
+src_file_path: ../files/index.html
+dest_file_path: /var/www/html
+
+# 배포판별 패키지 목록
+httpd_packages: "{{ ['apache2', 'apache2-utils'] if ansible_facts['os_family'] == 'Debian' else ['httpd', 'httpd-tools', 'httpd-filesystem'] }}"
+
+# 지원하는 리눅스 배포판 목록
+supported_distros:
+  - CentOS
+  - RedHat
+  - Ubuntu

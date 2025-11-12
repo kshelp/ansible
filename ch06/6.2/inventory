@@ -1,0 +1,13 @@
+[web]
+k8s-worker1
+k8s-worker2
+
+[db]
+k8s-worker3
+
+[all:children]
+web
+db
+
+[all:vars]
+user=ansible

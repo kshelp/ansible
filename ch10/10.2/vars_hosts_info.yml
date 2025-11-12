@@ -1,0 +1,13 @@
+knodes:
+  - hostname: k8s-master
+    fqdn: k8s-master.exp.com
+    net_ip: 192.168.127.128
+  - hostname: k8s-worker1
+    fqdn: k8s-worker1.exp.com
+    net_ip: 192.168.127.129
+  - hostname: k8s-worker2
+    fqdn: k8s-worker2.exp.com
+    net_ip: 192.168.127.130
+  - hostname: k8s-worker3
+    fqdn: k8s-worker3.exp.com
+    net_ip: 192.168.127.131

@@ -1,0 +1,27 @@
+---
+# tasks file for my-role2 (Ubuntu fixed)
+
+- name: Ensure UFW is installed
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: Enable UFW and allow SSH (to prevent locking yourself out)
+  community.general.ufw:
+    state: enabled
+    rule: allow
+    name: OpenSSH
+
+- name: Allow HTTP/HTTPS ports
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+
+- name: Reload UFW
+  ansible.builtin.command: ufw reload
+  become: true

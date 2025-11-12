@@ -1,0 +1,23 @@
+---
+
+- hosts: k8s-worker1
+  vars:
+    fedora_os: 
+      - CentOS
+      - RedHat
+    net_info:
+      - con_name: ens160
+        ip_addr: 192.168.127.129/24
+        ip_gw: 192.168.127.2
+        ip_dns: 192.168.127.2
+
+  tasks:
+  - name: Include role in CentOS and RedHat
+    ansible.builtin.include_role:
+      name: myrole.nmcli
+    when: ansible_facts.distribution in fedora_os
+
+  - name: Include role in Ubuntu
+    ansible.builtin.include_role:
+      name: myrole.netplan
+    when: ansible_facts.distribution == "Ubuntu" 

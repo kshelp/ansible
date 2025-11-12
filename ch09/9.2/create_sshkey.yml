@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Create ssh key
+      ansible.builtin.user:
+        name: "{{ userid }}"
+        generate_ssh_key: true
+        ssh_key_bits: 2048
+        ssh_key_file: /home/{{ userid }}/.ssh/id_rsa
+
+    - name: Set permission for .ssh directory
+      ansible.builtin.file:
+        path: "/home/{{ userid }}/.ssh"
+        mode: '0755'
+
+    - name: Set permission for public key
+      ansible.builtin.file:
+        path: "/home/{{ userid }}/.ssh/id_rsa.pub"
+        mode: '0644'
+
+- hosts: knode
+  tasks:
+    - name: Copy SSH Pub key to remote node
+      ansible.posix.authorized_key:
+        user: "{{ userid }}"
+        state: present
+        key: "{{ lookup('file', '/home/{{ userid }}/.ssh/id_rsa.pub') }}"

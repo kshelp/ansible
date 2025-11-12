@@ -1,0 +1,27 @@
+---
+# tasks file for my-role
+
+# RedHat / CentOS 계열
+- name: install service {{ service_title }} on RedHat/CentOS
+  ansible.builtin.dnf:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ httpd_packages }}"
+  when: ansible_facts['os_family'] == 'RedHat'
+
+# Debian / Ubuntu 계열
+- name: install service {{ service_title }} on Debian/Ubuntu
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop: "{{ httpd_packages }}"
+  when: ansible_facts['os_family'] == 'Debian'
+
+# 공통 작업: 설정 파일 복사
+- name: copy conf file
+  ansible.builtin.copy:
+    src: "{{ src_file_path }}"
+    dest: "{{ dest_file_path }}"
+  notify:
+    - restart service
