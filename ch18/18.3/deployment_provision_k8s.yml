@@ -13,8 +13,7 @@
             labels:
               app: "{{ application_label }}"
           spec:
-            #replicas: "{{ replica_cnt | int }}"
-            replicas: 3
+            replicas: "{{ replica_cnt | int }}"
             selector:
               matchLabels:
                 app: "{{ application_label }}"
