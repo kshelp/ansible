@@ -3,13 +3,13 @@
 - hosts: localhost
 
   tasks:
-    - name: 1. Check variables passed from AAP
+    - name: Check variables passed from AAP
     - name: Verify AWS credentials by calling STS GetCallerIdentity
       amazon.aws.aws_caller_info:
       register: aws_caller
       ignore_errors: true
 
-    - name: 2. Show AWS credential test result
+    - name: Show AWS credential test result
       debug:
         msg:
           - "✅ AWS Credential authentication succeeded"
