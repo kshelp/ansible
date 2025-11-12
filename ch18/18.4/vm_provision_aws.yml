@@ -4,25 +4,25 @@
 
   tasks:
     - name: 1. Check variables passed from AAP
-      debug:
-        msg:
-          vm_name: "{{ vm_name | default('❌ undefined') }}"
-          image_id: "{{ image_id | default('❌ undefined') }}"
-          instance_type: "{{ instance_type | default('❌ undefined') }}"
-          key_name: "{{ key_name | default('❌ undefined') }}"
-          security_group: "{{ security_group | default('❌ undefined') }}"
-          region_name: "{{ region_name | default('❌ undefined') }}"
-    
-    - name: 2. Verify AWS credentials by calling STS GetCallerIdentity
+    - name: Verify AWS credentials by calling STS GetCallerIdentity
       amazon.aws.aws_caller_info:
       register: aws_caller
+      ignore_errors: true
 
-    - name: 3. Show AWS credential test result
+    - name: 2. Show AWS credential test result
       debug:
         msg:
           - "✅ AWS Credential authentication succeeded"
-          - "Account ID: {{ aws_caller.account }}"
-          - "User ARN: {{ aws_caller.arn }}
+          - "Account ID: {{ aws_caller.account | default('❌ Unknown (No account returned)') }}"
+          - "User ARN: {{ aws_caller.arn | default('❌ Unknown (No ARN returned)') }}"
+      when: aws_caller is defined and aws_caller.failed is not defined
+
+    - name: Handle failed AWS credential check
+      debug:
+        msg:
+          - "❌ AWS credential authentication failed!"
+          - "Check if your AWS Access Key / Secret Key are correctly set in AAP Credentials."
+      when: aws_caller is failed or (aws_caller.account is not defined)
 
     - name: Create ec2 vm
       amazon.aws.ec2_instance:
