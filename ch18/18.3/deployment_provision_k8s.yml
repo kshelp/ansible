@@ -13,8 +13,7 @@
             labels:
               app: "{{ application_label }}"
           spec:
-            #replicas: "{{ replica_cnt | int }}"
-            replicas: "{{ replica_cnt | int | int }}"
+            replicas: "{{ replica_cnt }}"
             selector:
               matchLabels:
                 app: "{{ application_label }}"
@@ -27,8 +26,7 @@
                   - name: "{{ container_name }}"
                     image: "{{ container_image }}"
                     ports:
-                      #- containerPort: "{{ container_port | int }}"
-                      - containerPort: "{{ container_port | int | int }}"
+                      - containerPort: "{{ container_port }}"
       register: my_deployment
 
     - name: Print deployment information
