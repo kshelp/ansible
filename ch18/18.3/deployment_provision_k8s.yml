@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   tasks:
-    - name: Create or Replace Nginx Deployment
+    - name: Create or Update Nginx Deployment
       kubernetes.core.k8s:
         state: present
         definition:
@@ -9,7 +9,7 @@
           kind: Deployment
           metadata:
             name: "{{ deployment_name }}"
-            namespace: "{{ namespace }}" # ✅ 네임스페이스 변수 사용
+            namespace: "{{ k8s_namespace }}"    # ⚡ 안전한 변수명 사용
             labels:
               app: "{{ application_label }}"
           spec:
@@ -26,7 +26,7 @@
                   - name: "{{ container_name }}"
                     image: "{{ container_image }}"
                     ports:
-                      - containerPort: "{{ container_port | int }}"   # ✅ 정수 변환 추가
+                      - containerPort: "{{ container_port | int }}"
       register: my_deployment
 
     - name: Print deployment information
