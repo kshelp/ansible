@@ -26,14 +26,9 @@
                   - name: "{{ container_name }}"
                     image: "{{ container_image }}"
                     ports:
-                      #- containerPort: "{{ container_port | int }}"
-                      - containerPort: 80
+                      - containerPort: "{{ container_port | int }}"
       register: my_deployment
 
     - name: Print deployment information
       ansible.builtin.debug:
         var: my_deployment
-        
-    - name: Debug replica type
-      ansible.builtin.debug:
-        msg: "replica_cnt={{ replica_cnt }} type={{ replica_cnt | type_debug }}"
