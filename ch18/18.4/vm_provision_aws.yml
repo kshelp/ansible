@@ -3,7 +3,7 @@
 - hosts: localhost
 
   tasks:
-    - name: Check variables passed from AAP
+    - name: 1. Check variables passed from AAP
       debug:
         msg:
           vm_name: "{{ vm_name | default('❌ undefined') }}"
@@ -12,6 +12,17 @@
           key_name: "{{ key_name | default('❌ undefined') }}"
           security_group: "{{ security_group | default('❌ undefined') }}"
           region_name: "{{ region_name | default('❌ undefined') }}"
+    
+    - name: 2. Verify AWS credentials by calling STS GetCallerIdentity
+      amazon.aws.aws_caller_info:
+      register: aws_caller
+
+    - name: 3. Show AWS credential test result
+      debug:
+        msg:
+          - "✅ AWS Credential authentication succeeded"
+          - "Account ID: {{ aws_caller.account }}"
+          - "User ARN: {{ aws_caller.arn }}
 
     - name: Create ec2 vm
       amazon.aws.ec2_instance:
