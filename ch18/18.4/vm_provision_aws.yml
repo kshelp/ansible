@@ -11,14 +11,6 @@
     vm_name: "testvm"
     subnet_id: ""  # 필요하면 서브넷 ID 입력
   tasks:
-    - name: Verify AWS credentials by calling STS GetCallerIdentity
-      amazon.aws.aws_sts_info:
-      register: sts_result
-
-    - name: Show AWS Caller Identity
-      debug:
-        var: sts_result
-
     - name: Launch EC2 instance
       amazon.aws.ec2_instance:
         name: "{{ vm_name }}"
