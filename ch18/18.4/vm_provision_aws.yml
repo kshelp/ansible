@@ -14,8 +14,7 @@
           - "✅ AWS Credential authentication succeeded"
           - "Account ID: {{ aws_caller.account | default('❌ Unknown (No account returned)') }}"
           - "User ARN: {{ aws_caller.arn | default('❌ Unknown (No ARN returned)') }}"
-      when: aws_caller is defined and aws_caller.failed is not defined
-
+      
     - name: Handle failed AWS credential check
       debug:
         msg:
