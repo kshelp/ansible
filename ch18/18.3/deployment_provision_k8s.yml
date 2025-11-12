@@ -33,3 +33,7 @@
     - name: Print deployment information
       ansible.builtin.debug:
         var: my_deployment
+        
+    - name: Debug replica type
+      ansible.builtin.debug:
+        msg: "replica_cnt={{ replica_cnt }} type={{ replica_cnt | type_debug }}"
