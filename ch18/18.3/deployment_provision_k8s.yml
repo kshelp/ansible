@@ -3,7 +3,7 @@
   tasks:
     - name: Create or Replace Nginx Deployment
       kubernetes.core.k8s:
-        state: replaced
+        state: present
         definition:
           apiVersion: apps/v1
           kind: Deployment
